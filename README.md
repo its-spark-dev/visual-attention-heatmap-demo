@@ -1,7 +1,7 @@
 # visual-attention-heatmap-demo
 
-Interactive demo for visualizing and explaining predicted human visual attention
-on images using a rule-based attention core.
+Interactive demo for visualizing and explaining **rule-based visual saliency**
+on images using a deterministic attention core (v1.0).
 
 This repository is a **demo and visualization layer**, built on top of the
 `visual-attention-heatmap` core library.  
@@ -14,14 +14,14 @@ model training or quantitative benchmarks.
 
 The goal of this demo is to answer the question:
 
-> “Given an image, where is a human likely to look first — and why?”
+> “Given an image, which regions are visually salient — and why?”
 
 This project provides:
 - A visual **attention heatmap overlay** on top of an input image
 - A **feature-level explanation** of why certain regions are emphasized
 - A lightweight way to explore human visual attention **without eye-tracking hardware**
 
-This is **not** intended to replace eye-tracking systems, but to:
+This is **not** intended to replace eye-tracking systems. It is intended to:
 - Provide intuition
 - Enable rapid qualitative comparisons
 - Serve as a foundation for future applications (UX analysis, design review, education, etc.)
