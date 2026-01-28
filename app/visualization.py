@@ -13,9 +13,14 @@ def build_heatmap_overlay(
 ) -> Image.Image:
     """Return an RGB image with a heatmap overlay."""
     base = image.convert("RGB")
-    heatmap = _prepare_heatmap(attention_map, base.size)
+    heatmap = build_heatmap_image(attention_map, base.size)
     overlay = Image.blend(base, heatmap, alpha=alpha)
     return overlay
+
+
+def build_heatmap_image(attention_map: np.ndarray, size: Tuple[int, int]) -> Image.Image:
+    """Return an RGB heatmap image resized to the given size."""
+    return _prepare_heatmap(attention_map, size)
 
 
 def _prepare_heatmap(attention_map: np.ndarray, size: Tuple[int, int]) -> Image.Image:
@@ -43,3 +48,11 @@ def _apply_colormap(normalized: np.ndarray) -> np.ndarray:
     green = (np.clip((normalized - 0.3) / 0.7, 0.0, 1.0) * 255).astype(np.uint8)
     blue = (np.clip((normalized - 0.75) / 0.25, 0.0, 1.0) * 255).astype(np.uint8)
     return np.stack([red, green, blue], axis=2)
+
+
+def build_heatmap_legend(width: int = 240, height: int = 16) -> Image.Image:
+    """Create a horizontal gradient legend matching the heatmap colormap."""
+    gradient = np.linspace(0.0, 1.0, width, dtype=np.float32)
+    gradient = np.tile(gradient, (height, 1))
+    legend_rgb = _apply_colormap(gradient)
+    return Image.fromarray(legend_rgb, mode="RGB")
