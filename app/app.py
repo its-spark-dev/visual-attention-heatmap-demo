@@ -76,6 +76,12 @@ def main() -> None:
             disabled=not enable_phase3,
         )
 
+    view_mode = st.radio(
+        "View mode",
+        ["Overlay", "Heatmap only"],
+        horizontal=True,
+    )
+
     image_array = np.asarray(image, dtype=np.float32)
     final_attention = result.attention_map
     hint_maps = {}
@@ -89,8 +95,14 @@ def main() -> None:
             final_attention = result.attention_map
             hint_maps = {}
 
-    core_overlay = build_heatmap_overlay(image, result.attention_map)
-    final_overlay = build_heatmap_overlay(image, final_attention)
+    attention_map = final_attention if enable_phase3 else result.attention_map
+
+    if view_mode == "Heatmap only":
+        core_display = build_heatmap_image(result.attention_map, image.size)
+        final_display = build_heatmap_image(attention_map, image.size)
+    else:
+        core_display = build_heatmap_overlay(image, result.attention_map)
+        final_display = build_heatmap_overlay(image, attention_map)
 
     st.subheader("Original")
     st.image(image, use_column_width=True)
@@ -98,11 +110,11 @@ def main() -> None:
     st.subheader("Before / After")
     left, right = st.columns(2)
     with left:
-        st.markdown("**Core Attention (Overlay)**")
-        st.image(core_overlay, use_column_width=True)
+        st.markdown("**Core Attention**")
+        st.image(core_display, use_column_width=True)
     with right:
-        st.markdown("**Final Attention (Overlay)**")
-        st.image(final_overlay, use_column_width=True)
+        st.markdown("**Final Attention**")
+        st.image(final_display, use_column_width=True)
 
     st.caption("Low attention → High attention")
     st.image(legend, use_column_width=False)
