@@ -39,6 +39,61 @@ This is **not** intended to replace eye-tracking systems. It is intended to:
 
 ---
 
+## ✅ What the System Does Well
+
+- Produces deterministic, repeatable saliency maps for the same image
+- Highlights **low-level visual cues** (contrast, edges, center bias)
+- Offers **transparent explanations** tied directly to feature definitions
+- Supports fast, qualitative comparisons between images
+
+---
+
+## ❌ What the System Does NOT Do
+
+- It does **not** measure or predict actual human eye-tracking data
+- It does **not** interpret semantics (faces, text meaning, objects, intent)
+- It does **not** learn, adapt, or improve with usage
+- It does **not** provide calibrated probabilities of gaze
+
+---
+
+## ⚠️ Known Limitations & Biases
+
+- **Center bias is strong**: central regions tend to dominate even when peripheral content is compelling.
+- **Low-level bias**: the system favors contrast and edges over semantic importance.
+- **Context-blind**: it does not understand task, viewer intent, or cultural salience.
+- **Resolution sensitivity**: extremely small or noisy images can produce unstable maps.
+
+---
+
+## 🧪 Qualitative Test Plan (Phase 2)
+
+**Image categories**
+- Synthetic patterns (grids, single shapes, uniform fields)
+- Natural photos (people, landscapes, street scenes)
+- Documents (text-heavy pages, forms, posters)
+- Layouts / UI (web pages, app screens, thumbnails)
+
+**Expected feature behavior**
+- Center bias peaks near image center across categories
+- High-contrast edges produce hotspots (logos, headlines, sharp borders)
+- Center–surround responds to local contrast changes (icons, separators)
+
+**Failure cases worth documenting**
+- Saliency highlights non-semantic textures (grass, noise) over key content
+- Dominant center bias overwhelms meaningful off-center elements
+- Complex documents where dense text drowns titles or callouts
+
+---
+
+## 🧭 Current Observed Issues
+
+- **Center dominance** is often stronger than desired in wide layouts.
+- **Saliency ≠ gaze**: maps can feel plausible but do not reflect true human fixation patterns.
+- **Semantics missing**: faces or key objects are not privileged unless they have strong low-level cues.
+
+---
+
 ## 🧩 Project Structure
 
 ```text

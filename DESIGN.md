@@ -51,7 +51,14 @@ No randomness or hidden state should be introduced at the demo layer.
 
 ---
 
-## 4. Visualization Philosophy
+## 4. Phase 2 Focus: Validation & Clarification
+
+Phase 2 prioritizes **making system behavior explicit, testable, and auditable**.
+It does not aim to improve saliency quality, add features, or introduce ML.
+
+---
+
+## 5. Visualization Philosophy
 
 Visualization is intended to:
 - Aid human understanding
@@ -95,7 +102,53 @@ All outputs are *visual saliency predictions*, not semantic judgments.
 
 ---
 
-## 7. Extensibility Rules
+## 8. What the System Does Well
+
+- Deterministic, repeatable saliency maps
+- Interpretable, feature-based explanations
+- Highlights low-level cues (contrast, edges, center bias)
+
+---
+
+## 9. What the System Does NOT Do
+
+- No eye-tracking prediction or validation
+- No semantic understanding (faces, text meaning, objects)
+- No learning, adaptation, or personalization
+- No calibrated probabilities of gaze
+
+---
+
+## 10. Known Limitations & Biases
+
+- Strong center bias can dominate results
+- Low-level features can overemphasize textures and noise
+- Saliency is not equivalent to human fixation or task-driven attention
+- Small or low-quality inputs can yield unstable maps
+
+---
+
+## 11. Qualitative Test Plan (Phase 2)
+
+**Image categories**
+- Synthetic patterns (grids, simple shapes, uniform fields)
+- Natural photos (people, landscapes, street scenes)
+- Documents (text-heavy pages, forms, posters)
+- Layouts / UI (web pages, dashboards, thumbnails)
+
+**Expected feature behavior**
+- Center bias peaks near the center
+- Contrast and edges highlight sharp transitions and boundaries
+- Center–surround responds to local contrast changes (icons, separators)
+
+**Failure cases to document**
+- Off-center focal elements are ignored due to center dominance
+- Busy textures get more saliency than semantic content
+- Dense documents where titles are not emphasized
+
+---
+
+## 12. Extensibility Rules
 
 Future extensions must:
 - Preserve core/demo separation
