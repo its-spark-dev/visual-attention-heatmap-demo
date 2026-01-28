@@ -72,7 +72,7 @@ Design choices should favor:
 
 ---
 
-## 5. Feature Explanations
+## 6. Feature Explanations
 
 Each feature explanation should answer:
 - What visual property does this feature capture?
@@ -86,7 +86,7 @@ Explanations should be:
 
 ---
 
-## 6. Input Assumptions
+## 7. Input Assumptions
 
 The demo may accept:
 - Natural images
@@ -164,7 +164,7 @@ If a feature requires:
 
 ---
 
-## 8. Success Criteria
+## 13. Success Criteria
 
 This demo is considered successful if:
 - A user can upload an image and immediately understand the output
