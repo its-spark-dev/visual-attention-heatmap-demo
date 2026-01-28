@@ -10,41 +10,40 @@ def build_face_hint_map(image: np.ndarray) -> np.ndarray:
     if image.ndim not in (2, 3):
         raise ValueError("image must be a 2D or 3D array")
 
-    try:
-        import cv2
-    except ImportError as exc:
-        raise ImportError(
-            "OpenCV is required for face hints. Install opencv-python."
-        ) from exc
-
     height, width = image.shape[:2]
     if height == 0 or width == 0:
         return np.zeros((height, width), dtype=np.float32)
 
-    gray = _to_uint8_gray(image, cv2)
-    detector = _load_face_detector(cv2)
-    faces = detector.detectMultiScale(
-        gray,
-        scaleFactor=1.1,
-        minNeighbors=5,
-        minSize=(24, 24),
-    )
+    try:
+        import cv2
 
-    if faces is None or len(faces) == 0:
+        gray = _to_uint8_gray(image, cv2)
+        detector = _load_face_detector(cv2)
+        faces = detector.detectMultiScale(
+            gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(24, 24),
+        )
+
+        if faces is None or len(faces) == 0:
+            return np.zeros((height, width), dtype=np.float32)
+
+        mask = np.zeros((height, width), dtype=np.float32)
+        for x, y, w, h in faces:
+            x0 = max(0, int(x))
+            y0 = max(0, int(y))
+            x1 = min(width, int(x + w))
+            y1 = min(height, int(y + h))
+            if x1 > x0 and y1 > y0:
+                mask[y0:y1, x0:x1] = 1.0
+
+        sigma = max(1.0, min(height, width) * 0.02)
+        blurred = cv2.GaussianBlur(mask, ksize=(0, 0), sigmaX=sigma, sigmaY=sigma)
+        return _normalize(blurred)
+    except Exception as exc:
+        print(f"[phase3] Face hint unavailable: {exc}")
         return np.zeros((height, width), dtype=np.float32)
-
-    mask = np.zeros((height, width), dtype=np.float32)
-    for x, y, w, h in faces:
-        x0 = max(0, int(x))
-        y0 = max(0, int(y))
-        x1 = min(width, int(x + w))
-        y1 = min(height, int(y + h))
-        if x1 > x0 and y1 > y0:
-            mask[y0:y1, x0:x1] = 1.0
-
-    sigma = max(1.0, min(height, width) * 0.02)
-    blurred = cv2.GaussianBlur(mask, ksize=(0, 0), sigmaX=sigma, sigmaY=sigma)
-    return _normalize(blurred)
 
 
 def _to_uint8_gray(image: np.ndarray, cv2_module) -> np.ndarray:

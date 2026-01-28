@@ -91,7 +91,7 @@ def main() -> None:
                 image_array, result.attention_map, alpha, beta, blend
             )
         except Exception as exc:
-            st.error(f"Phase 3 failed to run: {exc}")
+            st.warning(f"Phase 3 ran with partial hints: {exc}")
             final_attention = result.attention_map
             hint_maps = {}
 
