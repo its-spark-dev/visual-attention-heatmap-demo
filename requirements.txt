@@ -1,0 +1,4 @@
+streamlit>=1.30
+numpy>=1.24
+Pillow>=10.0
+visual-attention-heatmap @ git+https://github.com/its-spark-dev/visual-attention-heatmap.git@v1.0.1
